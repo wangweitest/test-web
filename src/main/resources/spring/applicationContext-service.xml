@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<!-- 扫描包加载Service实现类 -->
+	<context:component-scan base-package="com.ww">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- init-method:初始化时执行的额外的方法 -->
+	<bean id="zkClient" class="org.apache.curator.framework.CuratorFrameworkFactory"
+		factory-method="newClient" init-method="start">
+		<constructor-arg index="0"
+			value="192.168.25.160:2181,192.168.25.160:2182,192.168.25.160:2183"></constructor-arg>
+		<!-- 会话超时时间 -->
+		<constructor-arg index="1" value="10000"></constructor-arg>
+		<!-- 连接超时时间 -->
+		<constructor-arg index="2" value="5000"></constructor-arg>
+		<!-- 重试策略 -->
+		<constructor-arg index="3" ref="retryPolicy"></constructor-arg>
+	</bean>
+
+
+	<bean id="retryPolicy" class="org.apache.curator.retry.RetryNTimes">
+		<!-- 重试次数 -->
+		<constructor-arg index="0" value="10"></constructor-arg>
+		<!-- 每次的间隔 -->
+		<constructor-arg index="1" value="1000"></constructor-arg>
+	</bean>
+
+
+	<bean id="zkCuratorLock" class="com.ww.util.ZkCuratorLock" init-method="init"> 
+		<constructor-arg index="0" ref="zkClient"></constructor-arg> </bean>
+
+
+
+</beans>
