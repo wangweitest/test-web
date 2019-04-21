@@ -19,7 +19,7 @@
 	<bean id="zkClient" class="org.apache.curator.framework.CuratorFrameworkFactory"
 		factory-method="newClient" init-method="start">
 		<constructor-arg index="0"
-			value="192.168.25.160:2181,192.168.25.160:2182,192.168.25.160:2183"></constructor-arg>
+			value="127.0.0.1:2181"></constructor-arg>
 		<!-- 会话超时时间 -->
 		<constructor-arg index="1" value="10000"></constructor-arg>
 		<!-- 连接超时时间 -->

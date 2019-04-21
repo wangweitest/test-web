@@ -22,7 +22,7 @@ public class Controller1 {
 	}
 	
 	//直接放在tomcat上执行的
-	//访问：http://localhost:8080/test-web2/test1
+	//访问：http://localhost:8080/test-web/test1
 	@RequestMapping("/test1")
 	@ResponseBody
 	public String test1(){

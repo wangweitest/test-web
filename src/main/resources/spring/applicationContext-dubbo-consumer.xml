@@ -10,7 +10,7 @@
 	
 	<!-- 注册中心的配置，用于消费者的监听 -->
 	<dubbo:registry  
-	protocol="zookeeper" address="192.168.25.160:2181,192.168.25.160:2182,192.168.25.160:2183"></dubbo:registry>
+	protocol="zookeeper" address="127.0.0.1:2181"></dubbo:registry>
 	
 	<!-- 监听服务，通过注册中心去进行查找，查找到后进行服务调用 -->
 	<dubbo:reference id="personService" interface="com.service.PersonService"
